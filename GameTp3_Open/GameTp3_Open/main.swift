@@ -25,26 +25,26 @@ func gameMenu() {
     var check = true
     var validation = true
     var warriorName = ""
-    var numberPointOfLiveGame = ["Combattant" : 100, "Mage": 80, "Colosse": 120, "Nain": 60, "Cavalier": 200]
+    var numberPointOfLiveGame = ["Fight" : 100, "Magus": 80, "Colossus": 120, "Dwarf": 60, "Rider": 200]
     var maxPointOfLiveTeam1 = 0
     var maxPointOfLiveTeam2 = 0
     var maxPointOfLiveTeam = 0
     var numberTurn = 0
     let banner = """
-          __
-                 |  )                   _
-                 |--  _  _  ° _  , ,/) (  _ | _| _ |-   _ ° |
-                 |__)(_)| )/_(_)(_(/(_ _)(_)|(_|(_||_  | )__|
-                          /)
-                         (/
+          
+                 |  |  _          _              _
+                 |--| (_ | |  _  (   _  |  _| ° (_ /)  _ ° |
+                 |  |_(__|_|_(_)__)_(_)_|_(_|_|_(_/(_ | )__|
+                          
+                         
         """
     let banner1 = """
-          __
-                 |  )                   _                   ,__
-                 |--  _  _  ° _  , ,/) (  _ | _| _ |-   _ ° | /
-                 |__)(_)| )/_(_)(_(/(_ _)(_)|(_|(_||_  | )__ /__,
-                          /)
-                         (/
+
+                 |  |  _          _              _        ,__
+                 |--| (_ | |  _  (   _  |  _| ° (_ /)  _ °| /
+                 |  |_(__|_|_(_)__)_(_)_|_(_|_|_(_/(_ | )__/__
+
+
         """
     
     let banner2 = """
@@ -57,21 +57,21 @@ func gameMenu() {
         """
     let banner3 = """
         ,_____,
-           |                         _,
-           | , ,  _ (    _  _  _  _ (_      |||
-           |(_(__(_|_)_ (_)(_|(_|| |(_      |||
-                         /)    /)      °°°  °°°
-                        (/    (/
+              
+             ) )  _   , ,   | /| / _   _      |||
+            (_(__(_|_(_(_  _|/_|/_(_)_| )     |||
+             /)                          °°°  °°°
+            (/
                    
         """
     func checkName(name: String) -> Bool {
-// fonction de control du nom
+// This function controls the name
         let nameInit = name
             for i in 0...4 {
                 if team1[i]?.nameSoldier == nameInit || team2[i]?.nameSoldier == nameInit {
                     print("\n            =========================================="
-                        + "\n                      LE NOM EST DEJA UTILISE."
-                        + "\n                       RECOMMENCE TON CHOIX..."
+                        + "\n                      THE NAME IS ALREADY USED."
+                        + "\n                       REPEAT YOUR CHOICE..."
                         + "\n            ==========================================")
                     numberTime -= 1
                     check = true
@@ -80,25 +80,33 @@ func gameMenu() {
         return check
     }
     
+    func displayBattleResul() {
+        print("\n========================================================")
+        print("Here is the number of life points of the team 1 : \(maxPointOfLiveTeam1)\n"
+            + "   and the number of life points of the team 2 : \(maxPointOfLiveTeam2)\n"
+            + "=======================================================")
+    }
+    
     func viewTeam(team: [Int : Soldier], numberGamer: Int) {
-// fonction d'affichage des équipes
+// This function display the teams
         var team = team
         var oneTime = 1
         if numberTime == 4 {
             for _ in 0...4 {
                 if oneTime == 1 {
-                    print("\nVoici les membres de l'équipe \(numberGamer): ")
+                    print("\nHere are the team members \(numberGamer): ")
                     print("--------------------------------")
                     for i in 0..<team.count {
-                        print("Tape :", i+1, "pour avoir", team[i]?.nameSoldier ?? "Il n'y a rien", "est un", team[i]?.type ?? "SoldatHelp", "qui a",team[i]?.numberPointsOfLive ?? 100,"points de vie et", team[i]?.numberPointsOfAttack ?? 10, "d'attaque")
+                        print("Step :", i+1, "to have", team[i]?.nameSoldier ?? "They are nothing", "is a", team[i]?.type ?? "SoldierHelp", "who has",team[i]?.numberPointsOfLive ?? 100,"life and", team[i]?.numberPointsOfAttack ?? 10, "attack")
                         oneTime += 1
                     }
                     if numberGamer == 1 {
-                        print("\nVoici le nombre de points de vie de l'équipe 1 ligne 86 : \(maxPointOfLiveTeam1)")
+                        maxPointOfLiveTeam = maxPointOfLiveTeam1
                     }
                     if numberGamer == 2 {
-                        print("\nVoici le nombre de points de vie de l'équipe 2 : \(maxPointOfLiveTeam2)")
+                        maxPointOfLiveTeam = maxPointOfLiveTeam2
                     }
+                    print("\nHere is the number of life points of team \(numberGamer) : \(maxPointOfLiveTeam)")
                 }
             }
         }
@@ -106,12 +114,12 @@ func gameMenu() {
     
     func recordName (numberGamer: Int, name: String, typeWarrior: String ,numberTime: Int, numberPointsOfLive: Int, numberPointsOfAttack: Int, check: Bool) {
         var team = [0 :Soldier(), 1: Soldier(), 2: Soldier(), 3: Soldier()]
-//fonction d'enregistrement qui inverse juste le team lorsque c'est le tour du joueur 2
-        if numberGamer == 1 && check == false {
+// This function reverses the team when player number 2 arrives
+        if numberGamer == 1 && !check {
             team = team1
             maxPointOfLiveTeam1 += numberPointsOfLive
         }
-        if numberGamer == 2 && check == false {
+        if numberGamer == 2 && !check {
             team = team2
             maxPointOfLiveTeam2 += numberPointsOfLive
         }
@@ -134,7 +142,7 @@ func gameMenu() {
         var turnNumber = 0
         
         print("\n              ============================================")
-        print("\n                           RAPPEL DES EQUIPES")
+        print("\n                           TEAMS REMINDER")
         print("\n              ============================================")
         viewTeam(team: team1, numberGamer: 1)
         viewTeam(team: team2, numberGamer: 2)
@@ -155,58 +163,57 @@ func gameMenu() {
                 case "4":
                     soldier = team[3]!
                 default:
-                    print("Je ne comprends")
+                    print("I don't understand")
                     validation = false
                 }
             }
             return soldier
         }
         
-        func openingTrunk(soldier: Soldier) -> Soldier {
-            // // Etape 3 : Changeons d'armes, cette fonction prend en charge le BONUS
-            var chest = ["Massue","Arbalette","Medicaments","Injection","Dopage"]
+        func openingTrunk(soldier: Soldier, choice: String) -> Soldier {
+            // Step 3 : We change the strength of the weapon in this function
+            var chest = ["Club","Crossbow","Drugs","Injection","Doping"]
             let randomIndex = Int(arc4random_uniform(UInt32(chest.count)))
             let newWeapon = chest[randomIndex]
-            
-            print("Voici le Soldat reçu à openingTrunk \(soldier.type) ligne 171")
-            
+            var controle = 1
             print("\n===================================================================================")
-            print("                        ATTENTION LE COFFRE S'OUVRE !!!!!!!")
+            print("                        WATCH THE CHEST OPEN !!!!!!!")
             print("===================================================================================")
             
-            print("\nVoici ce qui est sortie du coffre \(newWeapon)")
+            print("\nHere is what came out of the chest: \(newWeapon)")
             switch soldier.type {
-            case "Mage":
-                print("Je rentre ici parce que je suis un Mage \(soldier.type)")
-                if newWeapon == "Medicaments" || newWeapon == "Injection" {
+            case "Magus":
+                if choice == "2" {
+                    if newWeapon == "Drugs" || newWeapon == "Injection" {
+                        soldier.numberPointsOfAttack *= 2
+                    }
+                }
+                else {
+                    controle += 1
+                }
+            case "Rider":
+                if newWeapon == "Doping" {
                     soldier.numberPointsOfAttack *= 2
                 }
-            case "Cavalier":
-                print("Je rentre ici parce que je suis un Cavalier \(soldier.type)")
-                if newWeapon == "Dopage" {
+            case "Fight":
+                if newWeapon == "Club" || newWeapon == "Crossbow" {
                     soldier.numberPointsOfAttack *= 2
                 }
-            case "Combattant":
-                print("Je rentre ici parce que je suis un Combattant \(soldier.type)")
-                if newWeapon == "Massue" || newWeapon == "Arbalette" {
+            case "Colossus":
+                if newWeapon == "Club" || newWeapon == "Crossbow" {
                     soldier.numberPointsOfAttack *= 2
                 }
-            case "Colosse":
-                print("Je rentre ici parce que je suis un Colosse \(soldier.type)")
-                if newWeapon == "Massue" || newWeapon == "Arbalette" {
-                    soldier.numberPointsOfAttack *= 2
-                }
-            case "Nain":
-                print("Je rentre ici parce que je suis un Nain \(soldier.type)")
-                if newWeapon == "Massue" || newWeapon == "Arbalette" {
+            case "Dwarf":
+                if newWeapon == "Club" || newWeapon == "Crossbow" {
                     soldier.numberPointsOfAttack *= 2
                 }
             default:
-                print("Je rentre ici parce que je ne suis rien ")
+                print("They are nothing ")
             }
-            
-            print("\nVoici la nouvelle force de frappe du soldat \(soldier.numberPointsOfAttack)"
-                + "\n----------------------------------------------")
+            if controle == 1 {
+                print("\nThis is the new soldier's strike force \(soldier.numberPointsOfAttack)"
+                    + "\n----------------------------------------------")
+            }
             return soldier
         }
         
@@ -230,19 +237,20 @@ func gameMenu() {
             if choice == "1" {
                 var validationMage = true
                 var numberMage = 0
-// Cette boucle a pour mission de controler le nombre de Mage dans l'équipe
+// This loop has the mission to count how much there is magus in the team
                 for i in 0...4 {
-                    if teamSwap1[i]?.type == "Mage" {
+                    if teamSwap1[i]?.type == "Magus" {
                         numberMage += 1
                         soldier2 = teamSwap1[i]!
                     }
                 }
                 if numberMage == 4 {
-                    print("Tu n'as que des Mages dans ton équipe, tu ne peux pas attaquer. ")
+                    print("You only have mages in your team, you can't attack ! ")
+                    validationMage = false
                 } else {
                 
                     repeat {
-                        print("\nCHOISI UN PERSONNAGE DE TON EQUIPE... ")
+                        print("\nCHOOSE A MEMBER OF YOUR TEAM... ")
                         if numberGamer == 1 {
                             viewTeam(team: team1, numberGamer: 1)
                         }
@@ -251,26 +259,27 @@ func gameMenu() {
                         }
                         
                         soldier1 = displayMenu(team: teamSwap1)
-    //Capter la valeur initial du soldat sélectionné
+    //Here we capture the initial value of the attack of the soldier
                         initialForce = soldier1.numberPointsOfAttack
                         
                         if soldier1.numberPointsOfLive <= 0 {
-                            print("Impossible de le sélectionner, il est HS")
+                            print("Can't select it is dead")
                             validation = false
                         }
-                        if soldier1.type == "Mage" {
-                            print("IMPOSSIBLE DE LE SELECTIONNER POUR COMBATTRE, IL NE PEUT QUE SOIGNIER\n")
+                        if soldier1.type == "Magus" {
+                            print("CAN NOT SELECT HIM TO FIGHT, HE CAN ONLY CARE \n")
                             validationMage = false
                         }
-                    } while validation == false
+                    } while !validation
                
     // on affecte le résultat de openingTrunk à la propriété "force_d'attaque" du Soldier1 préalablement envoyé
-                    soldier1 = openingTrunk(soldier: soldier1)
-
+                    if validationMage {
+                        soldier1 = openingTrunk(soldier: soldier1, choice: choice)
+                    }
                     
                     repeat {
                         if validationMage == true {
-                            print("\nCHOISI UN PERSONNAGE DE L'AUTRE EQUIPE... ")
+                            print("\nCHOOSE A MEMBER OF THE OTHER TEAM...... ")
                             if numberGamer == 1 {
                                 viewTeam(team: team2, numberGamer: 2)
                             } else {
@@ -278,63 +287,51 @@ func gameMenu() {
                             }
                             soldier2 = displayMenu(team: teamSwap2)
                             if soldier2.numberPointsOfLive <= 0 {
-                                print("Impossible de le sélectionner, il est HS")
+                                print("Can't select it is dead")
                                 validation = false
                             }
                         }
-                    } while validation == false
+                    } while !validation
                     
-                    if validationMage == true {
-                        print("====================================")
-                        print("Tu viens de sélectionner \(soldier1.nameSoldier)")
-                        print("Tu viens de sélectionner \(soldier2.nameSoldier)")
-                        print("====================================\n")
+                    if validationMage {
+                        print("==============================")
+                        print("You just selected \(soldier1.nameSoldier)")
+                        print("You just selected \(soldier2.nameSoldier)")
+                        print("=============================\n")
                         }
-            
-                    soldier2.numberPointsOfLive -= soldier1.numberPointsOfAttack
-                    if soldier2.numberPointsOfLive < 0 {
-                        soldier2.numberPointsOfLive = 0
+                    if validationMage {
+                        if soldier1.numberPointsOfAttack > soldier2.numberPointsOfLive {
+                            if numberGamer == 1 && validation && validationMage {
+                                maxPointOfLiveTeam2 -= soldier2.numberPointsOfLive
+                            }
+                            if numberGamer == 2 && validation && validationMage {
+                                maxPointOfLiveTeam1 -= soldier2.numberPointsOfLive
+                            }
+                            soldier2.numberPointsOfLive = 0
+                        }
+                        else {
+                            soldier2.numberPointsOfLive -= soldier1.numberPointsOfAttack
+                            
+                            if numberGamer == 1 && validation && validationMage {
+                                maxPointOfLiveTeam2 -= soldier1.numberPointsOfAttack
+                            }
+                            if numberGamer == 2 && validation && validationMage {
+                                maxPointOfLiveTeam1 -= soldier1.numberPointsOfAttack
+                            }
+                        }
+                        displayBattleResul()
                     }
-                    if numberGamer == 1 && validation == true && validationMage == true {
-                        maxPointOfLiveTeam2 -= soldier1.numberPointsOfAttack
-                    }
-                    if numberGamer == 2 && validation == true && validationMage == true {
-                        maxPointOfLiveTeam1 -= soldier1.numberPointsOfAttack
-                    }
-                    
-                    // Retour de la force de frappe initiale
+                    // Return of the initial strike force
                     soldier1.numberPointsOfAttack = initialForce
-                
-                    
-                    
-                    if validationMage == true {
-                        if maxPointOfLiveTeam1 < 0 {
-                            maxPointOfLiveTeam1 = 0
-                            print("\n========================================================")
-                            print("Voici le nombre de points de vie de l'équipe 1 : \(maxPointOfLiveTeam1)\n"
-                                + "   et le nombre de points de vie de l'équipe 2 : \(maxPointOfLiveTeam2)\n"
-                                + "=======================================================")
-                        } else {
-                          
-                            print("Voici le nombre de points de vie de l'équipe 1 : \(maxPointOfLiveTeam1) \nVoici le nombre de points de vie de l'équipe 2 : \(maxPointOfLiveTeam2)\n")
-                        }
-                        if maxPointOfLiveTeam2 < 0 {
-                            maxPointOfLiveTeam2 = 0
-                            print("======================================================================")
-                            print("Voici le nombre de points de vie de l'équipe 1 : \(maxPointOfLiveTeam1)\n"
-                                + "   et le nombre de points de vie de l'équipe 2 : \(maxPointOfLiveTeam2)\n"
-                                + "=======================================================")
-                        }
-                        
-                    }
                 }
             }
             
             if choice == "2" {
                 var validChoiceMage = false
-// Cette boucle a pour mission de controler la présence de Mage dans l'équipe et si celui-ci est encore en vie
+                validation = true
+// This function has the mission to control the presence of a mage in the team and if is is still alive
                 for i in 0...4 {
-                    if teamSwap1[i]?.type == "Mage" {
+                    if teamSwap1[i]?.type == "Magus" {
                         soldier2 = teamSwap1[i]!
                         validChoiceMage = true
                         if soldier2.numberPointsOfLive == 0 {
@@ -342,84 +339,69 @@ func gameMenu() {
                         }
                     }
                 }
-               if validChoiceMage == false {
-                    print("Tu n'as pas de Mage dans ton équipe en état d'agir. ")
+               if !validChoiceMage {
+                    print("You don't have a magus in your team able to act ")
+                    validation = false
                 } else {
-                
-                //Capter la valeur initial du soldat sélectionné
+//Here we capture the initial value of the attack of the soldier
                 initialForce = soldier2.numberPointsOfAttack
+                soldier2 = openingTrunk(soldier: soldier2, choice: choice)
 
-                print("Voici le Mage envoyé à openingTrunk\(soldier2.type) ligne 332")
+                print("Choose the person to look after ")
+                if numberGamer == 1 {
+                    viewTeam(team: team1, numberGamer: 1)
+                }
+                if numberGamer == 2 {
+                    viewTeam(team: team2, numberGamer: 2)
+                }
+        
+                soldier1 = displayMenu(team: teamSwap1)
                 
-                        soldier2 = openingTrunk(soldier: soldier2)
-
-                
-                        print("Choisi le personnage à soignier ")
-                        if numberGamer == 1 {
-                            viewTeam(team: team1, numberGamer: 1)
-                        }
-                        if numberGamer == 2 {
-                            viewTeam(team: team2, numberGamer: 2)
-                        }
-                
-                        soldier1 = displayMenu(team: teamSwap1)
-            
-                
-                
-                        for (typeSoldier, numberPointOfLive) in numberPointOfLiveGame {
-                            if typeSoldier == soldier1.type {
-            // récupération du nombre maxi de point de vie selon le type de soldat
-                                maxNumberOfLive = numberPointOfLive
-                            }
-                        }
-                        if soldier1.numberPointsOfLive == maxNumberOfLive {
-                            print("Voici le nombre de point de \(soldier1.numberPointsOfLive)")
-                            print("Inutile de le soignier il est en pleine forme ")
-                            validation = false
-                        }
-                        if soldier1.numberPointsOfLive <= 0 {
-                            print("Tu arrives trop tard le soldat est H.S. \n")
-                            validation = false
-                        } else {
-                            soldier1.numberPointsOfLive += soldier2.numberPointsOfAttack
-                        }
-                        if numberGamer == 1 && validation == true {
-                            maxPointOfLiveTeam1 += soldier2.numberPointsOfAttack
-                        }
-                        if numberGamer == 2 && validation == true {
-                            maxPointOfLiveTeam2 += soldier2.numberPointsOfAttack
-                        }
-                 
-            // Retour de la force de frappe initiale
-                         soldier2.numberPointsOfAttack = initialForce
-                
-                    if validation == false {
-                        print("Voici le résultat du soin du \(soldier2.type) il a ajouté \(soldier2.numberPointsOfAttack) points de vie ")
-                        if maxPointOfLiveTeam1 < 0 {
-                            maxPointOfLiveTeam1 = 0
-                            print("Voici le nombre de points de vie de l'équipe 1 : \(maxPointOfLiveTeam1)\n"
-                                + "   et le nombre de points de vie de l'équipe 2 : \(maxPointOfLiveTeam2)")
-                        }
-                        if maxPointOfLiveTeam2 < 0 {
-                            maxPointOfLiveTeam2 = 0
-                            print("Voici le nombre de points de vie de l'équipe 1 : \(maxPointOfLiveTeam1)\n"
-                                + "   et le nombre de points de vie de l'équipe 2 : \(maxPointOfLiveTeam2)")
-                        }
+                for (typeSoldier, numberPointOfLive) in numberPointOfLiveGame {
+                    if typeSoldier == soldier1.type {
+// Recovery of the maximum number of life points of the soldier type
+                        maxNumberOfLive = numberPointOfLive
                     }
+                }
+                if soldier1.numberPointsOfLive == maxNumberOfLive {
+                    print("Here is the number of points of \(soldier1.numberPointsOfLive)")
+                    print("No need to treat him he is in great shape ! ")
+                    validation = false
+                }
+                if soldier1.numberPointsOfLive <= 0 {
+                    print("You arrive too late, your soldier is dead \n")
+                    validation = false
+                } else {
+                    soldier1.numberPointsOfLive += soldier2.numberPointsOfAttack
+                }
+                if numberGamer == 1 && validation {
+                    maxPointOfLiveTeam1 += soldier2.numberPointsOfAttack
+                }
+                if numberGamer == 2 && validation {
+                    maxPointOfLiveTeam2 += soldier2.numberPointsOfAttack
+                }
+                
+                if validation {
+                    print("Here is the result of the treatment \(soldier2.type) he added \(soldier2.numberPointsOfAttack) life ")
+                    displayBattleResul()
+                }
+                
+// Return of the initial strike force
+                 soldier2.numberPointsOfAttack = initialForce
                 }
             }
         }
         
         repeat {
-            // numberTurn comptabilise le nombre de tour pour informer le gagnant en fin de partie
+// numberTurn comptabilise le nombre de tour pour informer le gagnant en fin de partie
             numberTurn += 1
-            // turnNumber maintient trois cycles
+// turnNumber maintient trois cycles
             var controle = true
             print("\n======================================"
-                + "\nGAMER\(gamer) VEUX-TU COMBATTRE OU SOIGNIER ? "
+                + "\nPLAYER\(gamer) WANT TO FIGHT OR CARE ? "
                 + "\n======================================"
-                + "\nTape : 1 pour combattre"
-                + "\nTape : 2 pour soignier")
+                + "\nStape : 1 to fight "
+                + "\nStape : 2 to care ")
             if let choice = readLine() {
                 switch choice {
                 case "1":
@@ -428,12 +410,12 @@ func gameMenu() {
                 case "2":
                     choiceSoldier(choice: choice, numberGamer: gamer, team1: team1, team2: team2)
                 default:
-                    print("Je ne comprends pas.")
+                    print("I don't understand.")
                     controle = false
                 }
             }
-             //turnNumber += 1
-            if gamer == 1 && controle == true {
+            
+            if gamer == 1 && controle {
                 gamer = 2
             } else {
                 gamer = 1
@@ -443,20 +425,20 @@ func gameMenu() {
         
         if maxPointOfLiveTeam1 <= 0 {
             print(banner2)
-            print("Bravo l'équipe deux as gagné !!!")
-            print("Il aura fallut \(numberTurn) tours pour remporter le combat...")
+            print("Bravo team two won !!!")
+            print("It took \(numberTurn) laps to win the fight...")
             print(banner3)
         }
         if maxPointOfLiveTeam2 <= 0 {
             print(banner2)
-            print("Bravo l'équipe une as gagné !!!")
-            print("Il aura fallut \(numberTurn) tours pour remporter le combat...")
+            print("Bravo team two won !!!")
+            print("It took \(numberTurn) laps to win the fight...")
             print(banner3)
         }
     }
     
     //========================================
-    //              MENU DE DEMARRAGE
+    //              START MENU
     //========================================
     
     for _ in 0...1 {
@@ -470,19 +452,19 @@ func gameMenu() {
                 + "        " + banner1)
         }
         
-        print("\nSELECTIONNE 4 SOLDATS PARMI CEUX LISTÉS CI-DESSOUS...")
+        print("\nSELECT 4 SOLDIERS FROM THE ONES LISTED BELOW...")
         if numberGamer == 2 {
             numberTime = 0
         }
         repeat {
             
-            print("\nQuel personnage numéro \(numberTime+1) veux-tu dans ton équipe :"
+            print("\nWhat character number \(numberTime+1) do you want in your team :"
                 + "\n--------------------------------------------------"
-                + "\nTape : 1 pour avoir un Combattant avec 100 points de vie et 10 de force "
-                + "\nTape : 2 pour avoir un   Mage     avec  80 points de vie et 10 de force "
-                + "\nTape : 3 pour avoir un  Colosse   avec 120 points de vie et  7 de force "
-                + "\nTape : 4 pour avoir un   Nain     avec  60 points de vie et 15 de force (40 pour les testes)"
-                + "\nTape : 5 pour avoir un Cavalier   avec 200 points de vie et 25 de force")
+                + "\nStep : 1 to have a   fight  with 100 health and 10 strength"
+                + "\nStep : 2 to have a   magus  with  80 health and 10 strength"
+                + "\nStep : 3 to have a colossus with 120 health and  7 strength"
+                + "\nStep : 4 to have a   dwarf  with  60 health and 15 strength"
+                + "\nStep : 5 to have a   rider  with 200 health and 25 strength")
             
             if let choice = readLine() {
                 var choiceSoldierTeam = 0
@@ -490,7 +472,7 @@ func gameMenu() {
                  choiceSoldierTeam = Int(choice)!
                 }
                 if choiceSoldierTeam <= 5 && choiceSoldierTeam > 0 {
-                    print("\nComment veux-tu l'appeler ?")
+                    print("\nHow do you want to call it ?")
                     repeat {
                         
                         if let name = readLine() {
@@ -503,33 +485,33 @@ func gameMenu() {
                     switch choice {
                     case "1":
                         if check == false {
-                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Combattant", numberTime: numberTime, numberPointsOfLive: 100, numberPointsOfAttack: 10, check: check)
+                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Fight", numberTime: numberTime, numberPointsOfLive: 100, numberPointsOfAttack: 10, check: check)
                         }
                     case "2":
                         if check == false {
-                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Mage", numberTime: numberTime, numberPointsOfLive: 80, numberPointsOfAttack: 10, check: check)
+                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Magus", numberTime: numberTime, numberPointsOfLive: 80, numberPointsOfAttack: 10, check: check)
                         }
                         
                     case "3":
                         if check == false {
-                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Colosse", numberTime: numberTime, numberPointsOfLive: 120, numberPointsOfAttack: 7, check: check)
+                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Colossus", numberTime: numberTime, numberPointsOfLive: 120, numberPointsOfAttack: 7, check: check)
                         }
                     case "4":
                         if check == false {
-                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Nain", numberTime: numberTime, numberPointsOfLive: 60, numberPointsOfAttack: 40, check: check)
+                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Dwarf", numberTime: numberTime, numberPointsOfLive: 60, numberPointsOfAttack: 15, check: check)
                         }
                     case "5":
                         if check == false {
-                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Cavalier", numberTime: numberTime, numberPointsOfLive: 200, numberPointsOfAttack: 25, check: check)
+                            recordName(numberGamer: numberGamer, name: warriorName, typeWarrior: "Rider", numberTime: numberTime, numberPointsOfLive: 200, numberPointsOfAttack: 25, check: check)
                         }
                     default:
-                        print("Je ne comprends pas.")
+                        print("I don't understand.")
                         numberTime -= 1
                 }
 
             }
                 else {
-                    print("La valeur doit être comprise entre 1 et 5 ")
+                    print("The value must be between 1 and 5 ")
                    numberTime -= 1
                 }
             numberTime += 1
